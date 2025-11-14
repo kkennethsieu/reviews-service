@@ -1,7 +1,12 @@
-import db from "../db/db";
+import db from "../db/db.js";
+
 
 export const getReview = () => {};
+
+
 export const createReview = () => {};
-export const updateReview = () => {};
+// export const updateReview = () => {};
+
+
 export const deleteReview = () => {};
-export const getScore = () => {};
+// export const getScore = () => {};
