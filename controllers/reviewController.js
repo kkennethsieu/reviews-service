@@ -1,5 +1,7 @@
 import db from "../db/db.js"
 import dotenv from "dotenv"
+import * as ReviewModel from "../models/reviewModel.js";  
+
 dotenv.config();
 
 export const serverStatus = (req, res) => {
@@ -11,8 +13,12 @@ export const getReview = () => {};
 
 // Abraham
 export const createReview = () => {};
-// export const updateReview = () => {};
+
 
 // Jordan
-export const deleteReview = () => {};
-// export const getScore = () => {};
+export const deleteReview = (req, res) => {
+    const reviewId = req.params.reviewId;
+    const result = ReviewModel.deleteReview(reviewId)
+    console.log(result)
+    res.send(`Attempted to delete reviewId ${reviewId} with result ${JSON.stringify(result)}`);
+};

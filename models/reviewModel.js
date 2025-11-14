@@ -5,8 +5,8 @@ export const getReview = () => {};
 
 // Abraham
 export const createReview = () => {};
-// export const updateReview = () => {};
 
 // Jordan
-export const deleteReview = () => {};
-// export const getScore = () => {};
+export const deleteReview = (reviewId) => {
+    return db.prepare("DELETE FROM reviews WHERE reviewId = ?").run(reviewId)
+};
