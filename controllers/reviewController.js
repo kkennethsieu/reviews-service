@@ -1,4 +1,3 @@
-import db from "../db/db.js"
 import dotenv from "dotenv"
 import * as ReviewModel from "../models/reviewModel.js";  
 
@@ -9,7 +8,20 @@ export const serverStatus = (req, res) => {
 }
 
 // Louie
-export const getReview = () => {};
+export const getReviewsByGame = async (req, res) => {
+    const game = req.params.gameId;
+    const result = ReviewModel.getReviewsByGame(game);
+    console.log("Getting reviews by game: ", game);
+    return res.status(200).json(result);
+};
+
+// Louie
+export const getReviewsByUser = async (req, res) => {
+    const user = req.params.userId;
+    const result = ReviewModel.getReviewsByUser(user);
+    console.log("Getting reviews by user: ", user);
+    return res.status(200).json(result);
+};
 
 // Abraham
 export const createReview = () => {};

@@ -1,7 +1,8 @@
 import express from "express";
 import {
     serverStatus,
-    getReview,
+    getReviewsByGame,
+    getReviewsByUser,
     createReview,
     deleteReview,
     } from "../controllers/reviewController.js";
@@ -10,7 +11,9 @@ const router = express.Router();
 
 router.get("/", serverStatus);
 
-router.get("/:gameId", getReview);
+router.get("/:gameId", getReviewsByGame);
+
+router.get("/:userId", getReviewsByUser);
 
 router.post("/create", createReview);
 
