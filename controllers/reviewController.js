@@ -20,5 +20,10 @@ export const deleteReview = (req, res) => {
     const reviewId = req.params.reviewId;
     const result = ReviewModel.deleteReview(reviewId)
     console.log(result)
-    res.send(`Attempted to delete reviewId ${reviewId} with result ${JSON.stringify(result)}`);
+    if (result.changes > 0) {
+        res.status(200).json({message: `Delete successful`});
+    }
+    else {
+        res.status(404).json({message: `Review not found`});
+    }
 };

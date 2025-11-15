@@ -14,6 +14,6 @@ router.get("/:gameId", getReview);
 
 router.post("/create", createReview);
 
-router.get("/delete/:reviewId", deleteReview)
+router.post("/delete/:reviewId", deleteReview)
 
 export default router;
