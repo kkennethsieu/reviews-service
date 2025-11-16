@@ -218,3 +218,7 @@ console.log(data);
 | `gameId` | integer | The gameId of the game being reviewed
 | `reviewScore` | integer | The user's rating of the game
 | `review` | string | The text of the user's review
+
+## UML Diagram
+
+![UML Diagram](./images/Review-Service-UML.png)
