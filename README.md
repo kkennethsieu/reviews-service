@@ -141,8 +141,9 @@ console.log(data);
     "User not found."
 }
 ```
+---
 
-### 3. Delete Review
+### 4. Delete Review
 
 **Endpoint**: `POST /reviews/delete/:reviewId`
 
