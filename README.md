@@ -46,31 +46,101 @@ The service will run on `http://localhost:4000`.
 
 ---
 
-### 2. Get Review
+### 2. Get Reviews By Game
 
-**Endpoint**:
+**Endpoint**: `GET /reviews/game/:gameId`
 
-**Description**:
+**Description**: Returns all reviews for a given game, including the userId, gameId, reviewScore, and review itself.
 
-**Parameters**:
+**Parameters**: gameId (path parameter, integer): the unique identifier of the game.
 
-**Example Request**:
+**Example Request**: 
+```javascript
+const gameId = 111
+const response = await fetch(`http://localhost:4000/reviews/game/${gameId}`, {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json"
+    }
+});
+
+const data = await response.json();
+console.log(data);
+```
 
 **Example Response** (200 OK):
 ```json
+[
 {
-
+    "userId":57,
+    "gameId":111,
+    "reviewScore":8,
+    "review":"Hollow Knight is fun but hard!"
+},
+{
+    "userId":80,
+    "gameId":111,
+    "reviewScore":3,
+    "review":"I didnt like Hollow Knight very much, way too hard."
 }
+]
 ```
 
 **Error Response** (404 not found):
 ```json
 {
-
+    "Game not found."
 }
 ```
 
 ---
+
+### 3. Get Reviews By User
+
+**Endpoint**: `GET /reviews/user/:userId`
+
+**Description**: Returns all reviews from a given user, including the userId, gameId, reviewScore, and review itself.
+
+**Parameters**: userId (path parameter, integer): the unique identifier of the user.
+
+**Example Request**: 
+```javascript
+const userId = 57
+const response = await fetch(`http://localhost:4000/reviews/user/${userId}`, {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json"
+    }
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+**Example Response** (200 OK):
+```json
+[
+{
+    "userId":57,
+    "gameId":111,
+    "reviewScore":8,
+    "review":"Hollow Knight is fun but hard!"
+},
+{
+    "userId":57,
+    "gameId":306,
+    "reviewScore":10,
+    "review":"RDR2 IS THE BEST GAME EVER!"
+}
+]
+```
+
+**Error Response** (404 not found):
+```json
+{
+    "User not found."
+}
+```
 
 ### 3. Delete Review
 
