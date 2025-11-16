@@ -11,7 +11,9 @@ export const getReviewsByUser = (userId) => {
 };
 
 // Abraham
-export const createReview = () => {};
+export const createReview = (userId, gameId, reviewScore, review) => {
+  return db.prepare("INSERT INTO reviews (userId, gameId, reviewScore, review) VALUES (?, ?, ?, ?)").run(userId, gameId, reviewScore, review);
+};
 
 // Jordan
 export const deleteReview = (reviewId) => {

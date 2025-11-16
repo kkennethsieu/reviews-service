@@ -22,25 +22,54 @@ The service will run on `http://localhost:4000`.
 
 ### 1. Create Review
 
-**Endpoint**:
+**Endpoint**: `POST /reviews/create`
 
-**Description**:
+**Description**: Creates a new review for a game. Requires userId, gameId, reviewScore (1-10), and review text.
 
-**Parameters**:
+**Parameters**: 
+- userId (integer): The unique identifier of the user creating the review
+- gameId (integer): The unique identifier of the game being reviewed  
+- reviewScore (integer): The user's rating of the game (must be between 1-10)
+- review (string): The text content of the user's review
 
 **Example Request**:
+```javascript
+const response = await fetch('http://localhost:4000/reviews/create', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        userId: 123,
+        gameId: 456,
+        reviewScore: 8,
+        review: "This game was amazing! Great graphics and gameplay."
+    })
+});
 
-**Example Response** (200 OK):
+const data = await response.json();
+console.log(data);
+```
+
+**Example Response** (201 Created):
 ```json
 {
-
+    "message": "Review created successfully",
+    "reviewId": 19
 }
 ```
 
-**Error Response** (404 not found):
+**Error Response** (400 Bad Request):
 ```json
 {
+    "message": "Missing required fields: userId, gameId, reviewScore, and review are all required"
+}
+```
 
+**Error Response** (400 Bad Request - Invalid Score):
+```json
+{
+    "message": "Review score must be between 1 and 10"
 }
 ```
 
