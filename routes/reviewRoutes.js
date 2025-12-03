@@ -1,22 +1,30 @@
 import express from "express";
 import {
-    serverStatus,
-    getReviewsByGame,
-    getReviewsByUser,
-    createReview,
-    deleteReview,
-    } from "../controllers/reviewController.js";
+  serverStatus,
+  getReviewsById,
+  getReviewsByGame,
+  getReviewsByUser,
+  createReview,
+  deleteReview,
+  updateReview,
+} from "../controllers/reviewController.js";
 
 const router = express.Router();
 
 router.get("/", serverStatus);
+//get review by id
+router.get("/review/:reviewId", getReviewsById);
 
-router.get("/:gameId", getReviewsByGame);
+//get review for a specific game
+router.get("/game/:gameId", getReviewsByGame);
 
-router.get("/:userId", getReviewsByUser);
+// get reviews for a certain user
+router.get("/user/:userId", getReviewsByUser);
 
 router.post("/create", createReview);
 
-router.post("/delete/:reviewId", deleteReview)
+router.patch("/update/:reviewId", updateReview);
+
+router.delete("/delete/:reviewId", deleteReview);
 
 export default router;
