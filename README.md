@@ -4,7 +4,7 @@
 
 The Review Service provides a RESTful API that lets users create, view, and delete video game reviews.
 
-**Base URL**: `http://localhost:4000/`
+**Base URL**: `http://localhost:3003/`
 
 ## Running the Service
 
@@ -16,7 +16,7 @@ npm install
 npm run dev
 ```
 
-The service will run on `http://localhost:4000`.
+The service will run on `http://localhost:3003`.
 
 ---
 
@@ -38,7 +38,7 @@ The service will run on `http://localhost:4000`.
 **Example Request**:
 
 ```javascript
-const response = await fetch("http://localhost:4000/reviews/create", {
+const response = await fetch("http://localhost:3003/reviews/create", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -94,7 +94,7 @@ console.log(data);
 
 ```javascript
 const gameId = 111;
-const response = await fetch(`http://localhost:4000/reviews/game/${gameId}`, {
+const response = await fetch(`http://localhost:3003/reviews/game/${gameId}`, {
   method: "GET",
   headers: {
     "Content-Type": "application/json",
@@ -146,7 +146,7 @@ console.log(data);
 
 ```javascript
 const userId = 57;
-const response = await fetch(`http://localhost:4000/reviews/user/${userId}`, {
+const response = await fetch(`http://localhost:3003/reviews/user/${userId}`, {
   method: "GET",
   headers: {
     "Content-Type": "application/json",
@@ -201,7 +201,7 @@ console.log(data);
 ```javascript
 const reviewId = 4;
 const response = await fetch(
-  `http://localhost:4000/reviews/delete/${reviewId}`,
+  `http://localhost:3003/reviews/delete/${reviewId}`,
   {
     method: "POST",
     headers: {
