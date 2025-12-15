@@ -1,28 +1,57 @@
 import db from "../db/db.js";
 
 //get review by id
-
 export const getReviewById = (reviewId) => {
-  const stmt = db.prepare(`SELECT * FROM reviews WHERE reviewId = ?`);
-  const data = stmt.get(reviewId);
-  return data;
+  try {
+    const stmt = db.prepare(`SELECT * FROM reviews WHERE reviewId = ?`);
+    const review = stmt.get(reviewId);
+
+    if (!review) throw new Error("Review not found");
+
+    return review;
+  } catch (err) {
+    throw new Error(err.message || "Error fetching review by ID");
+  }
 };
+
 // Get all reviews for a specific game
 export const getReviewsByGame = (gameId) => {
-  return db
-    .prepare(
-      "SELECT reviewId, userId, gameId, reviewScore, reviewTitle, reviewBody, category, createdAt FROM reviews WHERE gameId = ? ORDER BY createdAt DESC"
-    )
-    .all(gameId);
+  try {
+    const stmt = db.prepare(`
+      SELECT reviewId, userId, gameId, reviewScore, reviewTitle, reviewBody, category, createdAt
+      FROM reviews
+      WHERE gameId = ?
+      ORDER BY createdAt DESC
+    `);
+    const reviews = stmt.all(gameId);
+
+    if (!reviews || reviews.length === 0)
+      throw new Error("No reviews found for this game");
+
+    return reviews;
+  } catch (err) {
+    throw new Error(err.message || "Error fetching reviews by game");
+  }
 };
 
 // Get all reviews for a specific user
 export const getReviewsByUser = (userId) => {
-  return db
-    .prepare(
-      "SELECT reviewId, userId, gameId, reviewScore, reviewTitle, reviewBody, category, createdAt FROM reviews WHERE userId = ? ORDER BY createdAt DESC"
-    )
-    .all(userId);
+  try {
+    const stmt = db.prepare(`
+      SELECT reviewId, userId, gameId, reviewScore, reviewTitle, reviewBody, category, createdAt
+      FROM reviews
+      WHERE userId = ?
+      ORDER BY createdAt DESC
+    `);
+    const reviews = stmt.all(userId);
+
+    if (!reviews || reviews.length === 0)
+      throw new Error("No reviews found for this user");
+
+    return reviews;
+  } catch (err) {
+    throw new Error(err.message || "Error fetching reviews by user");
+  }
 };
 
 // Create a new review
@@ -75,7 +104,16 @@ export const updateReview = (
 
   const sql = `UPDATE reviews SET ${fields.join(", ")} WHERE reviewId = ?`;
 
-  return db.prepare(sql).run(...values);
+  const result = db.prepare(sql).run(...values);
+
+  if (result.changes === 0) throw new Error("Review not found");
+
+  // fetch the updated review
+  const updatedReview = db
+    .prepare("SELECT * FROM reviews WHERE reviewId = ?")
+    .get(reviewId);
+
+  return updatedReview;
 };
 
 // Delete a review by its ID

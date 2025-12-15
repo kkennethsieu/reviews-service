@@ -21,7 +21,7 @@ export const getReviewsById = async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(404).json({ error: "Review not found" });
   }
 };
 
@@ -34,7 +34,7 @@ export const getReviewsByGame = async (req, res) => {
     return res.status(200).json(result);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error fetching reviews" });
+    res.status(404).json({ error: "Game not found" });
   }
 };
 
@@ -47,7 +47,7 @@ export const getReviewsByUser = async (req, res) => {
     return res.status(200).json(result);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error fetching reviews" });
+    res.status(404).json({ error: "Review not found" });
   }
 };
 
@@ -67,7 +67,7 @@ export const createReview = async (req, res) => {
       !category
     ) {
       return res.status(400).json({
-        message:
+        error:
           "Missing required fields: userId, gameId, reviewScore, reviewTitle, reviewBody, category",
       });
     }
@@ -76,7 +76,7 @@ export const createReview = async (req, res) => {
     if (reviewScore < 1 || reviewScore > 10) {
       return res
         .status(400)
-        .json({ message: "Review score must be between 1 and 10" });
+        .json({ error: "Review score must be between 1 and 10" });
     }
 
     const result = ReviewModel.createReview(
@@ -95,11 +95,11 @@ export const createReview = async (req, res) => {
         reviewId: result.lastInsertRowid,
       });
     } else {
-      res.status(500).json({ message: "Failed to create review" });
+      res.status(400).json({ error: "Failed to create review" });
     }
   } catch (error) {
     console.error("Error creating review:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(400).json({ error: "Internal server error" });
   }
 };
 
@@ -112,11 +112,11 @@ export const deleteReview = async (req, res) => {
     if (result.changes > 0) {
       res.status(200).json({ message: "Delete successful" });
     } else {
-      res.status(404).json({ message: "Review not found" });
+      res.status(404).json({ error: "Review not found" });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(404).json({ error: "Review not found" });
   }
 };
 
@@ -136,13 +136,9 @@ export const updateReview = async (req, res) => {
       category
     );
 
-    if (result.changes === 0) {
-      return res.status(404).json({ error: "Review not found" });
-    }
-
-    res.json({ success: true, updated: result });
+    res.status(200).json({ success: true, updated: result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(404).json({ error: "Review not found" });
   }
 };
