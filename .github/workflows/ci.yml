@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
-      ECR_REPOSITORY: reviews-service
     steps:
       # 1. Checkout repo
       - name: Checkout repository
@@ -38,15 +37,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # 6. Login to Amazon ECR
-      - name: Login to Amazon ECR
+      # 6. Login to PUBLIC ECR
+      - name: Login to Amazon ECR Public
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
 
       # 7. Build Docker image
       - name: Build Docker image
         run: |
-          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:pr-${{ github.event.pull_request.number }}
+          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:pr-${{ github.event.pull_request.number }}
+
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
           docker build -t $IMAGE_URI .
 
